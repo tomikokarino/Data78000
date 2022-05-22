@@ -1,21 +1,71 @@
 <!DOCTYPE html>
   <head>
     <meta charset="utf-8">
-    <title>Data 78000 - Tomiko Karino</title>
-    <!-- <link rel="stylesheet" href="style.css"> -->
+    <title>Data 78000 Final Project - Tomiko Karino</title>
+    <link rel="stylesheet" href="style.css"> 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300&family=Hind+Siliguri&family=Public+Sans:wght@300&family=Yantramanav:wght@300&display=swap" rel="stylesheet">  
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300&family=Hind+Siliguri&family=Public+Sans:wght@300&family=Yantramanav:wght@300&display=swap" rel="stylesheet">
   </head>
   <body>
+    <div id="background">
     <header>
-      <h1>Block bar chart</h1>
+      <h1>(Lack of) Diversity among artists in MoMA's permanent collection</h1>
     </header>
-<div id="container"></div>
+<div id="container">
+  <section id="introduction">
+    <p>During the Black Lives Matter movement in the summer of 2020, major art institutions in the United States were criticized for their lack of meaningful action towards racial equality and support for the black community.  This criticism, though heightened during the movement, was not new to the museums.  Some of the most famous museums in the world are located in New York City, and they have been blamed for the lack of diversity among artists in their collections, as well as among their employees, especially in their leadership roles.</p>
+
+<p>My final project examines and visualizes the gender and nationality of artists in the permanent collection of one such museum, the Museum of Modern Art (MoMA), to see the diversity among them or lack thereof.</p>
+
+<p>MoMA makes their permanent collection data available on their GitHub repository to help “everyone understand, enjoy and use their collection.”  There are artists dataset and artworks dataset in their repository, and for this project I used only the artists file.  Contained in the artists dataset are records of each artist such as name, nationality, gender, birth year, death year, Wiki QID, and Getty ULAN ID.  These are essentially the data included in the label of each artwork.</p>
+
+<p>There are a few important points to raise before moving onto the visualizations. First and foremost, the dataset was last updated in January 2021 hence it does not include the artists that joined the museum’s permanent collection in the last 15 months.  </p>
+
+<p>The information about artists’ gender also warrants some explanation.  There are four values in the gender variable: Male, Female, Non-Binary and Null.  We need to approach the gender categorization with caution because A) the data was collected for the purpose of being included in the artwork label rather than surveying the distribution of gender among the artists and B) the definition of gender has greatly evolved in the last 100 years since the museum was first founded.</p>
+
+<p>Even with these points in mind, it is evident in the following visualization that the gender distribution among the artists is disproportionately male.  </p>
+  </section>
+  <section id="gender-map">
+    <div class="chart-container">
+      <div id="gender-map-legend"></div>
+      <div id="gender-map-chart" class="gender-map-chart"></div>
+      <div id="nonBinary-label"></div>
+    </div>
+  </section>
+  <section>
+    <p>How about nationality then? There are artists from 118 different nations in the dataset, yet the overwhelming majority of them are from North America and Europe.</p>
+  </section>
+  <section id="bubble">
+    <div class="chart-container">
+      <div id="bubble-chart-legend"></div>
+      <div id="bubble-chart" class="bubble-chart"></div>
+      <div id="bubble-tooltip"></div>
+    </div>
+  </section>
+  <section>
+    <p>I further inspected the data by combining the first two visualization concepts and creating a circle pack of artists’ first names and nationalities.  Though the nationality data is revealing about certain quality and pattern within MoMA’s permanent collection, it does not necessarily divulge artists’ ethnicities.  Especially in the United States, where a significant portion of the population is immigrants, “being American” means many different things.  Hence I counted the number of first names in the top ten nationalities represented in the museum’s permanent collection in hope to shed some light on artists’ ethnic backgrounds.</p>
+  </section>
+  <section id="circle-pack">
+  <div class="chart-container">
+   <div id="circle-pack-legend"></div>
+   <div id="circle-pack-chart" class="circle-pack-chart"></div>
+  </div>
+  </section>
+  <section>
+    <p>Inspections of gender and racial diversity among artists in the permanent collection of museums like MoMA should ultimately lead to the discussion around the practice of assigning values and hierarchy to artwork and artists by these art institutions.  Museums have long been criticized for plucking artworks out of their natural environments, entirely stripping them of historical and cultural context, and placing them in museum buildings for the noble purpose of “educating the public.”  But who decided that museum directors and board of trustees, most of whom are white men from Western countries, should be the arbiters of what is art, which type of art is fine art and which artwork is worthy of belonging to their museums?  </p>
+
+<p>The definition of art is fluid and dynamic.  Yet museums quite literally create walls between what they deem art and everything else.  By collectively acquiring similar types of art by similar types of artists, major art institutions around the world can shape our understanding of art and create a homogenous culture that does not reflect the realities for many of us. </p>
+
+  </section>
+</div>
+</div>
     <!-- ******* SCRIPTS ****** -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <!-- <script src="name-circlepack.js" type="text/javascript"></script> -->
     <script src="main.js" type="text/javascript"></script>
     <!-- Color Legend library -- Thank you Susie Lu: https://d3-legend.susielu.com/ -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.min.js"></script>  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.js"></script> 
   </body>
 </html>

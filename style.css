@@ -1,0 +1,99 @@
+html {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Public Sans';
+    width: 100%;
+    height: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+    border-style: solid;
+    border-color: blue;
+    border-width: 0;
+    border-collapse: collapse;
+    background-color: #6D6875; /* 6D6875 https://coolors.co/palette/ffcdb2-ffb4a2-e5989b-b5838d-6d6875 */
+}
+
+#background {
+    background-color: white;
+    margin: 0 20%;
+    padding: 5% 0;
+}
+
+header {
+    border: solid 0px black;
+    margin-bottom: 8%;
+    padding: 0 5%;
+}
+
+section {
+    margin: 5% 0;
+}
+
+section > p {
+    border: solid 0px green;
+    margin: 2% 15%;
+}
+
+
+#gender-map, #bubble, #circle-pack {
+    border: solid 0px blue;
+    padding: 10% 3%;
+    background-color: #E5E5E5;
+}
+
+
+#container {
+    width: 100%;
+    border-style: solid;
+    border-color: red;
+    border-width: 0;
+
+}
+
+.chart-container {
+    display: flex;
+    flex-direction: row;
+    padding: 5%;
+    border: solid 0px red;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+
+#bubble-tooltip {
+    align-self: center;
+
+}
+
+p.bordered {
+    padding: 25px;
+}
+
+.circle-pack-chart,
+.gender-map-chart,
+.bubble-chart {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    vertical-align: top;
+    border: solid 0px black;
+}
+
+.circle-pack,
+.gender-map,
+.bubble {
+    display: inline-block;
+    top: 0;
+    left: 0;
+    border: solid 0px red;
+}
+
+.cpGenderLengendSVG,
+.cpRegionLegendSVG {
+/* display: block; */
+border: solid 0px black;
+}
