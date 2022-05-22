@@ -24,6 +24,9 @@ d3.csv('Data/MoMAArtists.csv', d3.autoType)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// *************************************
+// Format data
+// *************************************
   const noNullGender = MoMAArtists
                       .filter(function(d) {return d.Gender != null})
     
@@ -41,12 +44,16 @@ d3.csv('Data/MoMAArtists.csv', d3.autoType)
   const treemapRoot = treemap(hierarchyGroup)
     // console.log('treemapRoot.children', treemapRoot.children)
 
-  // Color scale
+// *************************************
+// Color scale
+// *************************************
   const treeMapcolorScale = d3.scaleOrdinal()
                               .domain(treemapRoot.children)
                               .range(["#D3D0CB","#E2C044","#587B7F"])  // color palette (middle three colors) https://coolors.co/palette/393e41-d3d0cb-e2c044-587b7f-1e2019
 
-  // Color legend 
+// *************************************
+// Legends
+// ************************************* 
   const genderLegend = d3.legendColor()
                           .labels(["Male", "Female", "Non-Binary"])
                           .scale(treeMapcolorScale);
@@ -82,7 +89,9 @@ d3.csv('Data/MoMAArtists.csv', d3.autoType)
                         .text("__Non-Binary 3")    
                         .style('font-size', 14)
 
-  // Treemap SVG  
+// *************************************
+// Chart
+// *************************************
   const treemapChart = d3.select("#gender-map-chart")
                         .append("svg")
                         .attr("viewBox", `0 0 ${width*.73} ${height*0.4}`)
@@ -155,53 +164,49 @@ d3.csv('Data/MoMAArtists.csv', d3.autoType)
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        /**********************************/
-        /*****           Data         *****/
-        /**********************************/
-
-        const noNullNation = MoMAArtists
-        .filter(function(d) {return d.Nationality != null })
-        .filter(function(d) {return d.Nationality != "Nationality unknown"})
-        // console.log('No Null Nation', noNullNation)
+// *************************************
+// Format data
+// *************************************
+  const noNullNation = MoMAArtists
+                      .filter(function(d) {return d.Nationality != null })
+                      .filter(function(d) {return d.Nationality != "Nationality unknown"})
+                      // console.log('No Null Nation', noNullNation)
       
   
-        // https://observablehq.com/@d3/d3-groupsort -- d3.groupSort
-        const sortedNationality = d3.flatRollup(noNullNation, v => v.length, d => d.Continent, d => d.Nationality)
-                                    .sort(([,,a],[,,b]) => d3.descending(a,b))
-                                    .map(([ continent, nationality, value]) => ({ ["continent"]: continent, ["nationality"]: nationality, ["value"]:value }))
+  // https://observablehq.com/@d3/d3-groupsort -- d3.groupSort
+  const sortedNationality = d3.flatRollup(noNullNation, v => v.length, d => d.Continent, d => d.Nationality)
+                              .sort(([,,a],[,,b]) => d3.descending(a,b))
+                              .map(([ continent, nationality, value]) => ({ ["continent"]: continent, ["nationality"]: nationality, ["value"]:value }))
         console.log('sortedNationality', sortedNationality)
   
-        /**********************************/
-        /*****          Scales        *****/
-        /**********************************/
-
-        const bubbleColor = d3.scaleOrdinal()
-        .domain(["Africa", "Americas", "Asia", "Europe", "Oceania"])
-        // color palette https://coolors.co/palette/f6bd60-f7ede2-f5cac3-84a59d-f28482
-        .range(["#F6BD60","#F5CAC3","#F28482","#84A59D","#F7EDE2"]);
+// *************************************
+// Scales
+// *************************************
+  const bubbleColor = d3.scaleOrdinal()
+                        .domain(["Africa", "Americas", "Asia", "Europe", "Oceania"])
+                        .range(["#F6BD60","#F5CAC3","#F28482","#84A59D","#F7EDE2"]); // color palette https://coolors.co/palette/f6bd60-f7ede2-f5cac3-84a59d-f28482
 
 
-        const bubbleSize = d3.scaleLinear()
+  const bubbleSize = d3.scaleLinear()
                       .domain([0, 5000])
-                      .range([10,200])  // circle will be between 2 and 300 px wide
+                      .range([10,200]) 
 
-        /**********************************/
-        /*****         Legends        *****/
-        /**********************************/
-
-        const bubbleColorLegend = d3.legendColor()
-                                    .labelFormat(d3.format(".2f"))
-                                    .scale(bubbleColor);
+// *************************************
+// Legends
+// *************************************
+  const bubbleColorLegend = d3.legendColor()
+                              .labelFormat(d3.format(".2f"))
+                              .scale(bubbleColor);
         
-        const bubbleColorLegendSVG = d3.select("#bubble-chart-legend")
-                                      .append("svg")
-                                      .attr("width", "100%")
-                                      // .attr("height", "100%")
+  const bubbleColorLegendSVG = d3.select("#bubble-chart-legend")
+                                  .append("svg")
+                                  .attr("width", "100%")
+
                                       
-              bubbleColorLegendSVG.append("text")
-                                  .text("Continent")
-                                  .attr("x", 20)
-                                  .attr("y", 20)
+        bubbleColorLegendSVG.append("text")
+                              .text("Continent")
+                              .attr("x", 20)
+                              .attr("y", 20)
 
 
         bubbleColorLegendSVG.append("g")
@@ -211,34 +216,29 @@ d3.csv('Data/MoMAArtists.csv', d3.autoType)
         bubbleColorLegendSVG.select(".bubbleLegend")
           .call(bubbleColorLegend);
   
-        /**********************************/
-        /*****         Chart          *****/
-        /**********************************/
-        
-        const bubbleChart = d3.select("#bubble-chart")
-                            .append("svg")
-                            .attr("viewBox", `0 0 ${width*0.8} ${height*0.8}`)
-                            .attr("preserveAspectRatio", "xMidYMid meet")
-                            // .attr("width", width * 0.8)
-                            // .attr("height", height * 0.8)
-                            .classed("bubble", true)
-                            .style("border-style", "solid")
-                            .style("border-width", 0)
+// *************************************
+// Chart
+// *************************************
+  const bubbleChart = d3.select("#bubble-chart")
+                        .append("svg")
+                        .attr("viewBox", `0 0 ${width*0.8} ${height*0.8}`)
+                        .attr("preserveAspectRatio", "xMidYMid meet")
+                        .classed("bubble", true)
+                        .style("border-style", "solid")
+                        .style("border-width", 0)
   
-        // https://d3-graph-gallery.com/graph/circularpacking_template.html
+  // https://d3-graph-gallery.com/graph/circularpacking_template.html
   
-         
-        // create a tooltip
-        const Tooltip = d3.select("#bubble-tooltip")
-        .append("div")
-        .style("opacity", 0)
-        .attr("class", "tooltip")
-        .style("background-color", "transparent")
-        .style("padding", "5px")
+
+  const Tooltip = d3.select("#bubble-tooltip")
+                    .append("div")
+                    .style("opacity", 0)
+                    .attr("class", "tooltip")
+                    .style("background-color", "transparent")
+                    .style("padding", "5px")
 
   
-      // Three function that change the tooltip when user hover / move / leave a cell
-      const mouseover = function(event, d) {
+  const mouseover = function(event, d) {
         Tooltip
           .style("opacity", 1)
           .style("background-color", bubbleColor(d.continent))
@@ -253,31 +253,29 @@ d3.csv('Data/MoMAArtists.csv', d3.autoType)
           .style("opacity", 0)
       }
   
-        const bubbleNode = bubbleChart.append("g")
-          .selectAll("circle")
-          .data(sortedNationality)
-          .join("circle")
-          .attr("class", "bubbleNode")
-          .attr("r", d => bubbleSize(d.value))
-          .attr("cx", width / 2)
-          .attr("cy", height /2)
-          .style("fill", d => bubbleColor(d.continent))
-          .style("fill-opacity", 0.6)
-          .attr("stroke", "#4A4E69")
-          .style("stroke-width", 1)
-          .on("mouseover", mouseover) // What to do when hovered
-          .on("mousemove", mousemove)
-          .on("mouseleave", mouseleave)
-          console.log("sortedNationality", sortedNationality)
+  const bubbleNode = bubbleChart.append("g")
+                              .selectAll("circle")
+                              .data(sortedNationality)
+                              .join("circle")
+                              .attr("class", "bubbleNode")
+                              .attr("r", d => bubbleSize(d.value))
+                              .attr("cx", width / 2)
+                              .attr("cy", height /2)
+                              .style("fill", d => bubbleColor(d.continent))
+                              .style("fill-opacity", 0.6)
+                              .attr("stroke", "#4A4E69")
+                              .style("stroke-width", 1)
+                              .on("mouseover", mouseover) // What to do when hovered
+                              .on("mousemove", mousemove)
+                              .on("mouseleave", mouseleave)
+                              console.log("sortedNationality", sortedNationality)
+                      
+ 
+  const simulation = d3.forceSimulation()
+                      .force("center", d3.forceCenter().x(width * 0.4).y(height * 0.4)) // Attraction to the center of the svg area
+                      // .force("charge", d3.forceManyBody().strength(.1)) // bubbleNodes are attracted one each other of value is > 0
+                      .force("collide", d3.forceCollide().strength(.2).radius(function(d){ return (bubbleSize(d.value)+3) }).iterations(1)) // Force that avoids circle overlapping
   
-     // Features of the forces applied to the bubbleNodes:
-     const simulation = d3.forceSimulation()
-        .force("center", d3.forceCenter().x(width * 0.4).y(height * 0.4)) // Attraction to the center of the svg area
-        // .force("charge", d3.forceManyBody().strength(.1)) // bubbleNodes are attracted one each other of value is > 0
-        .force("collide", d3.forceCollide().strength(.2).radius(function(d){ return (bubbleSize(d.value)+3) }).iterations(1)) // Force that avoids circle overlapping
-  
-    // Apply these forces to the bubbleNodes and update their positions.
-    // Once the force algorithm is happy with positions ('alpha' value is low enough), simulations will stop.
     simulation
       .nodes(sortedNationality)
       .on("tick", function(d){
@@ -298,147 +296,158 @@ d3.csv('Data/MoMAArtists.csv', d3.autoType)
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// *************************************
+// Format data
+// *************************************
   const topNations = MoMAArtists
     // Filter out null Gender and below top 10 nations
     .filter(function(d) { return  d.Nationality == "American" || d.Nationality == "German" || d.Nationality == "British" || d.Nationality == "French" || d.Nationality == "Italian" || d.Nationality == "Japanese" || d.Nationality == "Swiss" || d.Nationality == "Canadian" || d.Nationality == "Dutch" || d.Nationality == "Austrian"})
     .filter(function(d) { return d.Gender != null })
 
-    const topNationHierarchy = d3.hierarchy(d3.rollup(topNations, v => v.length, d => d.Nationality, d => d.Gender, d => d.FirstName))
-                            .sum(d => d[1])
-                            .sort((a,b) => d3.descending(a.value, b.value))
+  const topNationHierarchy = d3.hierarchy(d3.rollup(topNations, v => v.length, d => d.Nationality, d => d.Gender, d => d.FirstName))
+                              .sum(d => d[1])
+                              .sort((a,b) => d3.descending(a.value, b.value))
  
     // https://observablehq.com/d/c3866becb48941a8
     // https://observablehq.com/@didoesdigital/d3-circle-packing-with-data-wrangling-and-interactive-grou
 
-    
-    const bubbleColorRegion = d3.scaleOrdinal()
-                      .domain(["American", "German", "British", "French", "Italian", "Japanese", "Swiss", "Canadian", "Dutch", "Austrian"])
-                      .range(["#F5CAC3", "#84A59D", "#84A59D", "#84A59D", "#84A59D", "#F28482", "#84A59D", "#F5CAC3", "#84A59D", "#84A59D"])
+// *************************************
+// Scales
+// *************************************  
+  const bubbleColorRegion = d3.scaleOrdinal()
+                              .domain(["American", "German", "British", "French", "Italian", "Japanese", "Swiss", "Canadian", "Dutch", "Austrian"])
+                              .range(["#F5CAC3", "#84A59D", "#84A59D", "#84A59D", "#84A59D", "#F28482", "#84A59D", "#F5CAC3", "#84A59D", "#84A59D"])
 
-    const bubbleColorGender = d3.scaleOrdinal()
-                      .domain(["Male", "Female", "Non-Binary"])
-                      .range(["#D3D0CB","#E2C044","#587B7F"])
+  const bubbleColorGender = d3.scaleOrdinal()
+                              .domain(["Male", "Female", "Non-Binary"])
+                              .range(["#D3D0CB","#E2C044","#587B7F"])
 
-    const cpGenderLengendSVG = d3.select("#circle-pack-legend")
+// *************************************
+// Legends
+// *************************************
+  const cpGenderLengendSVG = d3.select("#circle-pack-legend")
                               .append("svg")
                               .classed("cpGenderLengendSVG", true)
                               .attr("width", 120)
                               .attr("height", 100)
 
-          cpGenderLengendSVG.append("text")
+        cpGenderLengendSVG.append("text")
                             .text("Gender")
                             .attr("x", 20)
                             .attr("y", 20)
 
-          cpGenderLengendSVG.append("g")
+        cpGenderLengendSVG.append("g")
                         .attr("class", "cpGenderLengend")
                         .attr("transform", "translate(0,30)");
         
-          cpGenderLengendSVG.select(".cpGenderLengend")
+        cpGenderLengendSVG.select(".cpGenderLengend")
                         .call(genderLegend);
 
-    const continentScale = d3.scaleOrdinal()
+const continentScale = d3.scaleOrdinal()
                         .domain(["Americas", "Asia", "Europe"])
                         .range(["#F5CAC3", "#F28482", "#84A59D"])
   
     
-    const cpRegionLegend = d3.legendColor()
+const cpRegionLegend = d3.legendColor()
                         .labelFormat(d3.format(".2f"))
                         .scale(continentScale);
 
-    const cpRegionLegendSVG = d3.select("#circle-pack-legend")
+const cpRegionLegendSVG = d3.select("#circle-pack-legend")
                         .append("svg")
                         .classed("cpRegionLegendSVG", true)
                         .attr("width", 120)
                         // .style("margin-top", 50)
 
 
-          cpRegionLegendSVG.append("text")
+      cpRegionLegendSVG.append("text")
                         .text("Continent")
                         .attr("x", 20)
                         .attr("y", 20)
 
-          cpRegionLegendSVG.append("g")
+      cpRegionLegendSVG.append("g")
                           .attr("class", "cpRegionLegend")
                           .attr("transform", "translate(0,30)");
 
-          cpRegionLegendSVG.select(".cpRegionLegend")
+      cpRegionLegendSVG.select(".cpRegionLegend")
                             .call(cpRegionLegend);
 
-    packedData = d3.pack()
+// *************************************
+// Chart
+// *************************************
+packedData = d3.pack()
     .size([width, height])
     .padding(4)
     
-    const circlePackRoot = packedData(topNationHierarchy);
-    let focus = circlePackRoot;
-    let view;
+const circlePackRoot = packedData(topNationHierarchy);
+let focus = circlePackRoot;
+let view;
 
-   const circlePack = d3.select("#circle-pack-chart")
-    .append("svg")
-    .attr("viewBox", `-${width/2} -${height/2} ${width} ${height}`)
-    .attr("preserveAspectRatio", "xMidYMid meet")
-    .classed("circle-pack", true)
-    .style("padding", "0,0")
-    .style("cursor", "pointer")
-    .style("border-width",0)
-    .style("border-style", "solid")
-    .on("click", (event) => zoom(event, circlePackRoot));
+const circlePack = d3.select("#circle-pack-chart")
+                    .append("svg")
+                    .attr("viewBox", `-${width/2} -${height/2} ${width} ${height}`)
+                    .attr("preserveAspectRatio", "xMidYMid meet")
+                    .classed("circle-pack", true)
+                    .style("padding", "0,0")
+                    .style("cursor", "pointer")
+                    .style("border-width",0)
+                    .style("border-style", "solid")
+                    .on("click", (event) => zoom(event, circlePackRoot));
 
-    const circleNode = circlePack.append("g")
-      .selectAll("circle")
-      .data(circlePackRoot.descendants().slice(1))
-      .join("circle")
-      .attr("class", "circleNode")
-      // .style("fill", "transparent")
-      .style("stroke-width", function(d) {
-        if (d.depth == 1) {
-          return 3
-        } else if (d.depth == 2) {
-          return 1
-        }else {
-          return 1
-        }
-      })
-      // .style("stroke", "#C5C3C6")
-      .style("stroke", function(d) {
-        if (d.depth == 1) {
-          return bubbleColorRegion(d.data[0])
-        } else if (d.depth == 2) {
-          return "white"
-        }else {
-          return "white"
-        }
-      })
-      .style("fill", function(d) {
-        if (d.depth == 1) {
-          return "white"
-        } else if (d.depth == 2) {
-          return bubbleColorGender(d.data[0])
-        }
-        else {
-          return "white"
-        }
-      })
-      .attr("pointer-events", d => !d.children ? "none" : null)
-      .on("mouseover", function() { d3.select(this).attr("stroke", "#000"); })
-      .on("mouseout", function() { d3.select(this).attr("stroke", null); })
-      .on("click", (event, d) => focus !== d && (zoom(event, d), event.stopPropagation()));
+const circleNode = circlePack.append("g")
+                            .selectAll("circle")
+                            .data(circlePackRoot.descendants().slice(1))
+                            .join("circle")
+                            .attr("class", "circleNode")
+                            // .style("fill", "transparent")
+                            .style("stroke-width", function(d) {
+                              if (d.depth == 1) {
+                                return 3
+                              } else if (d.depth == 2) {
+                                return 1
+                              }else {
+                                return 1
+                              }
+                            })
+                            // .style("stroke", "#C5C3C6")
+                            .style("stroke", function(d) {
+                              if (d.depth == 1) {
+                                return bubbleColorRegion(d.data[0])
+                              } else if (d.depth == 2) {
+                                return "white"
+                              }else {
+                                return "white"
+                              }
+                            })
+                            .style("fill", function(d) {
+                              if (d.depth == 1) {
+                                return "white"
+                              } else if (d.depth == 2) {
+                                return bubbleColorGender(d.data[0])
+                              }
+                              else {
+                                return "white"
+                              }
+                            })
+                            .attr("pointer-events", d => !d.children ? "none" : null)
+                            .on("mouseover", function() { d3.select(this).attr("stroke", "#000"); })
+                            .on("mouseout", function() { d3.select(this).attr("stroke", null); })
+                            .on("click", (event, d) => focus !== d && (zoom(event, d), event.stopPropagation()));
 
-      const label = circlePack.append("g")
-      .style("font", "18px sans-serif")
-      .attr("pointer-events", "none")
-      .attr("text-anchor", "middle")
-    .selectAll("text")
-    .data(circlePackRoot.descendants())
-    .join("text")
-      .style("fill-opacity", d => d.parent === circlePackRoot ? 1 : 0)
-      .style("display", d => d.parent === circlePackRoot ? "inline" : "none")
-      .text(d => d.data[0]);
+const label = circlePack.append("g")
+                        .style("font", "18px sans-serif")
+                        .attr("pointer-events", "none")
+                        .attr("text-anchor", "middle")
+                      .selectAll("text")
+                      .data(circlePackRoot.descendants())
+                      .join("text")
+                        .style("fill-opacity", d => d.parent === circlePackRoot ? 1 : 0)
+                        .style("display", d => d.parent === circlePackRoot ? "inline" : "none")
+                        .text(d => d.data[0]);
 
 
-      zoomTo([circlePackRoot.x, circlePackRoot.y, circlePackRoot.r * 2]);
+zoomTo([circlePackRoot.x, circlePackRoot.y, circlePackRoot.r * 2]);
 
-      function zoomTo(v) {
+function zoomTo(v) {
         const k = width / v[2];
     
         view = v;
@@ -467,6 +476,7 @@ d3.csv('Data/MoMAArtists.csv', d3.autoType)
                 .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
                 .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
       }
+
   })
 
 
