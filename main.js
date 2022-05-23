@@ -66,6 +66,7 @@ d3.csv('Data/MoMAArtists.csv', d3.autoType)
         .text("Gender")
         .attr("x", 20)
         .attr("y", 20)
+        .style("font-weight", "bold")
 
         genderLegendSVG.append("g")
                         .attr("class", "genderLegend")
@@ -88,6 +89,7 @@ d3.csv('Data/MoMAArtists.csv', d3.autoType)
                         .append("text")
                         .text("__Non-Binary 3")    
                         .style('font-size', 14)
+                        .style("font-weight", "bold")
 
 // *************************************
 // Chart
@@ -97,8 +99,6 @@ d3.csv('Data/MoMAArtists.csv', d3.autoType)
                         .attr("viewBox", `0 0 ${width*.73} ${height*0.4}`)
                         .attr("preserveAspectRatio", "xMidYMid meet")
                         .classed("gender-map", true)
-                        // .attr("width", 650)
-                        // .attr("height", 400)
                         .style("background-color", "#ffffff")
 
 
@@ -152,6 +152,7 @@ d3.csv('Data/MoMAArtists.csv', d3.autoType)
               .attr('x', 3)
               .attr('y', (d,i) => i ? '2.5em' : '1.15em')
               .text(d => d)
+              .style("font-weight", "bold")
           })
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -207,6 +208,7 @@ d3.csv('Data/MoMAArtists.csv', d3.autoType)
                               .text("Continent")
                               .attr("x", 20)
                               .attr("y", 20)
+                              .style("font-weight", "bold")
 
 
         bubbleColorLegendSVG.append("g")
@@ -245,7 +247,7 @@ d3.csv('Data/MoMAArtists.csv', d3.autoType)
       }
       const mousemove = function(bubbleEvent, d) {
         Tooltip
-          .html('<p class="bordered">' + d.value + " " + d.nationality + " " + "artists" + '</p>')
+          .html('<p class="bordered">' + '<span class="large">' + d.value + '</span>' + " " + d.nationality + " " + "artists" + '</p>')
       }
       
       var mouseleave = function(event, d) {
@@ -335,6 +337,7 @@ d3.csv('Data/MoMAArtists.csv', d3.autoType)
                             .text("Gender")
                             .attr("x", 20)
                             .attr("y", 20)
+                            .style("font-weight", "bold")
 
         cpGenderLengendSVG.append("g")
                         .attr("class", "cpGenderLengend")
@@ -363,6 +366,7 @@ const cpRegionLegendSVG = d3.select("#circle-pack-legend")
                         .text("Continent")
                         .attr("x", 20)
                         .attr("y", 20)
+                        .style("font-weight", "bold")
 
       cpRegionLegendSVG.append("g")
                           .attr("class", "cpRegionLegend")
@@ -434,7 +438,8 @@ const circleNode = circlePack.append("g")
                             .on("click", (event, d) => focus !== d && (zoom(event, d), event.stopPropagation()));
 
 const label = circlePack.append("g")
-                        .style("font", "18px sans-serif")
+                        .style("font", "18px Libre Franklin")
+                        .style("font-weight", "bold")
                         .attr("pointer-events", "none")
                         .attr("text-anchor", "middle")
                       .selectAll("text")

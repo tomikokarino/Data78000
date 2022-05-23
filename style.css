@@ -4,7 +4,6 @@ html {
 }
 
 body {
-    font-family: 'Public Sans';
     width: 100%;
     height: 100%;
     margin-top: 0;
@@ -97,3 +96,30 @@ p.bordered {
 /* display: block; */
 border: solid 0px black;
 }
+
+/***************/
+/* Font styles */
+/***************/
+body {
+    font-family: 'Libre Franklin', sans-serif;
+    font-weight: 100;
+}
+
+h1 {
+    font-size: 36pt;
+}
+
+p {
+    /* font-family: 'Gothic A1', sans-serif; */
+    font-size: 16pt;
+}
+
+p.bordered {
+    font-weight: bold;
+    font-size: 12pt;
+}
+
+span.large {
+    font-size: 24pt;
+}
+
