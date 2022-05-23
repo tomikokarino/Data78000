@@ -174,7 +174,6 @@ d3.csv('Data/MoMAArtists.csv', d3.autoType)
                       // console.log('No Null Nation', noNullNation)
       
   
-  // https://observablehq.com/@d3/d3-groupsort -- d3.groupSort
   const sortedNationality = d3.flatRollup(noNullNation, v => v.length, d => d.Continent, d => d.Nationality)
                               .sort(([,,a],[,,b]) => d3.descending(a,b))
                               .map(([ continent, nationality, value]) => ({ ["continent"]: continent, ["nationality"]: nationality, ["value"]:value }))
@@ -186,8 +185,7 @@ d3.csv('Data/MoMAArtists.csv', d3.autoType)
   const bubbleColor = d3.scaleOrdinal()
                         .domain(["Africa", "Americas", "Asia", "Europe", "Oceania"])
                         .range(["#F6BD60","#F5CAC3","#F28482","#84A59D","#F7EDE2"]); // color palette https://coolors.co/palette/f6bd60-f7ede2-f5cac3-84a59d-f28482
-
-
+                       
   const bubbleSize = d3.scaleLinear()
                       .domain([0, 5000])
                       .range([10,200]) 
@@ -264,7 +262,7 @@ d3.csv('Data/MoMAArtists.csv', d3.autoType)
                               .attr("cx", width / 2)
                               .attr("cy", height /2)
                               .style("fill", d => bubbleColor(d.continent))
-                              .style("fill-opacity", 0.6)
+                              .style("fill-opacity", 0.9)
                               .attr("stroke", "#4A4E69")
                               .style("stroke-width", 1)
                               .on("mouseover", mouseover) // What to do when hovered
@@ -275,7 +273,6 @@ d3.csv('Data/MoMAArtists.csv', d3.autoType)
  
   const simulation = d3.forceSimulation()
                       .force("center", d3.forceCenter().x(width * 0.4).y(height * 0.4)) // Attraction to the center of the svg area
-                      // .force("charge", d3.forceManyBody().strength(.1)) // bubbleNodes are attracted one each other of value is > 0
                       .force("collide", d3.forceCollide().strength(.2).radius(function(d){ return (bubbleSize(d.value)+3) }).iterations(1)) // Force that avoids circle overlapping
   
     simulation
@@ -402,17 +399,15 @@ const circleNode = circlePack.append("g")
                             .data(circlePackRoot.descendants().slice(1))
                             .join("circle")
                             .attr("class", "circleNode")
-                            // .style("fill", "transparent")
                             .style("stroke-width", function(d) {
                               if (d.depth == 1) {
-                                return 3
+                                return 4
                               } else if (d.depth == 2) {
                                 return 1
                               }else {
                                 return 1
                               }
                             })
-                            // .style("stroke", "#C5C3C6")
                             .style("stroke", function(d) {
                               if (d.depth == 1) {
                                 return bubbleColorRegion(d.data[0])

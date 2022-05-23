@@ -13,7 +13,7 @@ body {
     border-color: blue;
     border-width: 0;
     border-collapse: collapse;
-    background-color: #6D6875; /* 6D6875 https://coolors.co/palette/ffcdb2-ffb4a2-e5989b-b5838d-6d6875 */
+    background-color: #013A63; /* https://coolors.co/palette/012a4a-013a63-01497c-014f86-2a6f97-2c7da0-468faf-61a5c2-89c2d9-a9d6e5 */
 }
 
 #background {
@@ -26,6 +26,14 @@ header {
     border: solid 0px black;
     margin-bottom: 8%;
     padding: 0 5%;
+    /* text-align:center; */
+}
+
+footer {
+    margin: 15% 5% 0 5%;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px 0 0 0;
 }
 
 section {
@@ -103,6 +111,7 @@ border: solid 0px black;
 body {
     font-family: 'Libre Franklin', sans-serif;
     font-weight: 100;
+    color: #000;
 }
 
 h1 {
@@ -121,5 +130,14 @@ p.bordered {
 
 span.large {
     font-size: 24pt;
+}
+
+a:link, a:visited {
+    color: #000;
+    text-decoration: underline;
+}
+
+a:hover {
+    color: #DC2F02;  /* https://coolors.co/palette/03071e-370617-6a040f-9d0208-d00000-dc2f02-e85d04-f48c06-faa307-ffba08 */
 }
 
